@@ -1,6 +1,6 @@
 ﻿require.config({
     paths : {
-        jquery : 'libs/jquery'
+        jquery : 'lib/jquery'
     },
     waitSeconds: 180
 });
