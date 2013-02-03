@@ -4,8 +4,9 @@
     },
     waitSeconds: 180
 });
-require([ 'jquery' ], function( $ ){
+require([ 'jquery', 'mods/checksnap' ], function( $, CheckSnap ){
     'use strict';
 
-    console.dir( $ );
+    var chksnp = new CheckSnap();
+    chksnp.setup();
 });
