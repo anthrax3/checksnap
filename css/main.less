@@ -21,3 +21,26 @@
 
 // Grid system
 #grid > .create(@totalColumns, @pageWidth, @gutter);
+
+// Cam
+.cam-wrap {
+    position: relative;
+    max-width: 640px;
+    margin: 100px auto;
+
+    &.is-streaming {
+
+        &:after {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            content: "streaming";
+            background: rgba(255,255,255,0.5);
+        }
+    }
+}
+
+.cam-instructions{
+    text-align: center;
+}
