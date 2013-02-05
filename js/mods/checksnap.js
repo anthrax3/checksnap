@@ -11,7 +11,7 @@ define([ 'jquery', 'mods/camera' ], function ( $, Camera ) {
 
         this.cam = new Camera();
         this.cam.on( 'mediaavailable', this.displayStream.bind( this ) );
-        this.cam.on( 'error', function( type ){ console.log( 'errrrrrrr! ' + type ); } );
+        this.cam.on( 'error', this.displayError.bind( this ) );
 
         this.$el = $( this.options.container );
         this.$video = this.$el.find( 'video' );
@@ -24,12 +24,14 @@ define([ 'jquery', 'mods/camera' ], function ( $, Camera ) {
         width: 640,
         height: 480,
         container: '#js-checksnap',
-        isLoadingClass: 'is-loading',
-        isStreamingClass: 'is-streaming'
+        errorMsg: '#js-checksnap-error',
+        loadingClass: 'is-loading',
+        streamingClass: 'is-streaming',
+        errorClass: 'has-error'
     };
 
     ChkSnp.prototype.setup = function(){
-        this.$el.addClass( this.options.isLoadingClass );
+        this.$el.addClass( this.options.loadingClass );
         this.cam.setup();
         return this;
     };
@@ -52,13 +54,13 @@ define([ 'jquery', 'mods/camera' ], function ( $, Camera ) {
             this.$canvas.ctx.drawImage( this.$video[ 0 ], 0, 0 );
             this.$img.attr( 'src', this.$canvas[ 0 ].toDataURL( 'image/webp' ) );
             this.$video.replaceWith( this.$img );
-            this.$el.removeClass( this.options.isStreamingClass );
+            this.$el.removeClass( this.options.streamingClass );
         }
         return this;
     };
 
     ChkSnp.prototype.toggleLoadingIndicator = function(){
-        this.$el.toggleClass( this.options.isLoadingClass + ' ' + this.options.isStreamingClass );
+        this.$el.toggleClass( this.options.loadingClass + ' ' + this.options.streamingClass );
         return this;
     };
 
@@ -66,6 +68,10 @@ define([ 'jquery', 'mods/camera' ], function ( $, Camera ) {
         this.$video.attr( 'src', media.URL );
         this.$video[ 0 ].play();
         return this;
+    };
+
+    ChkSnp.prototype.displayError = function(){
+        this.$el.addClass( this.options.errorClass );
     };
 
     return ChkSnp;
