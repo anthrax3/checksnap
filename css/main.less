@@ -3,6 +3,10 @@
 @baseFontPath: "./chongo/fonts";
 @gutter: 20px;
 
+@link: #ECEDDC;
+@linkHover: #ECEDDC;
+@linkActive: #ECEDDC;
+
 // Fonts
 #font > .add(icon, normal);
 #font > .add(OpenSans, light);
@@ -22,25 +26,159 @@
 // Grid system
 #grid > .create(@totalColumns, @pageWidth, @gutter);
 
+body {
+    background-color: #EC173A;
+    text-shadow: 1px 1px rgba(255, 255, 255, 0.2);
+}
+
 // Cam
 .cam-wrap {
     position: relative;
-    max-width: 640px;
+    max-width: 660px;
     margin: 100px auto;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    cursor: pointer;
 
-    &.is-streaming {
+    video {
+        display: block;
+        width: 640px;
+        height: 480px;
+        background:
+            url(data:image/png;base64,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)
+            no-repeat
+            center;
+    }
 
-        &:after {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 5px 10px;
-            content: "streaming";
-            background: rgba(255,255,255,0.5);
+    .cam-instructions{
+        height: 0;
+        margin: 0;
+        overflow: hidden;
+        line-height: 4em;
+        text-align: center;
+        opacity: 0;
+        .transition(~"height 0.25s linear 0.25s, opacity 0.25s linear 0");
+
+        .icon-camera {
+            margin-right: 10px;
+            font-size: 2em;
+            vertical-align: middle;
         }
     }
-}
 
-.cam-instructions{
-    text-align: center;
+    .cam-ctrls {
+        text-align: center;
+        height: 0;
+        margin: 0;
+        overflow: hidden;
+        line-height: 4em;
+        opacity: 0;
+        .transition(~"height 0.25s linear 0.25s, opacity 0.25s linear 0");
+
+        a {
+            letter-spacing: 0.2em;
+            font-size: 1.1em;
+            text-shadow: -1px -1px 0 rgba(0,0,0,0.4);
+        }
+
+        .icon-ok-circle,
+        .icon-remove-circle {
+            font-size: 2em;
+            font-weight: normal;
+            vertical-align: middle;
+            margin: 0 5px;
+        }
+    }
+
+    .cam-help-wrap {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+
+        .cam-help {
+            position: absolute;
+            display: block;
+            visibility: hidden;
+            top: -50px;
+            right: 40px;
+            width: 240px;
+            padding: 10px;
+            background: #ECEDDC;
+            border-radius: 10px;
+            text-shadow: 1px 1px rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            .transition(opacity 0.7s);
+            .user-select(none);
+            .box-shadow(0 0 10px rgba(0,0,0,0.5));
+
+            &:after {
+                position: absolute;
+                top: 44px;
+                left: 100%;
+                content: "";
+                border-top: 10px solid transparent;
+                border-bottom: 10px solid transparent;
+                border-left: 10px solid #ECEDDC;
+            }
+        }
+
+        input {
+            display: none;
+        }
+
+        input[type=checkbox]:checked ~ .cam-help {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        span {
+            font-size: 2em;
+            cursor: help;
+
+            &:active {
+                color: #ECEDDC;
+            }
+        }
+    }
+
+    .cam-target {
+        display: none;
+        position: absolute;
+        top: 50px;
+        right: 10%;
+        left: 10%;
+        height: 0%;
+        padding: 20%;
+        color: white;
+        text-align: center;
+        outline: 5px solid yellow;
+    }
+
+    &.is-streaming {
+        cursor: auto;
+
+        video {
+            .scale(~"-1, 1");
+        }
+
+        .cam-target {
+            display: block;
+        }
+
+        .cam-instructions {
+            height: 50px;
+            opacity: 1;
+            .transition(~"height 0.25s linear, opacity 0.25s linear 0.25s");
+        }
+    }
+
+    &.has-screenshot {
+        .cam-ctrls {
+            height: 50px;
+            opacity: 1;
+            .transition(~"height 0.25s linear, opacity 0.25s linear 0.25s");
+        }
+    }
 }

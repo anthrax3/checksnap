@@ -6,7 +6,6 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
 		<title>ChequePic</title>
 		<meta name="description" content="">
 		<link rel="stylesheet" href="css/main.css">
@@ -16,14 +15,24 @@
 		<div class="container">
 			<div class="row">
 				<div class="twelve cols">
-					<div class="cam-wrap">
-						<video id="js-cam-display" poster="" width="640" height="480"></video>
-						<p class="cam-instructions">press &lt; space &gt; to take snapshot</p>
+					<div id="js-checksnap" class="cam-wrap">
+						<video width="640" height="480"></video>
+						<p class="cam-target">position check here</p>
+						<p class="cam-instructions"><span class="icon-camera"></span>press &lt; space &gt; to take snapshot</p>
+						<p class="cam-ctrls">
+						<a href="#save"><span class="icon-ok-circle"></span>save</a> - or - <a href="#retry">retry<span class="icon-remove-circle"></span></a>
+						</p>
+						<label class="cam-help-wrap" for="help">
+							<input type="checkbox" id="help" />
+							<span class="icon-question-sign"></span>
+							<p class="cam-help">
+								Click play to start your web cam, then position your check inside the yellow box and press the space bar on your keyboard.
+							</p>
+						</label>
 					</div>
 				</div>
 			</div>
 		</div>
-
 		<script data-main="js/main" src="js/lib/require.js"></script>
 	</body>
 </html>
