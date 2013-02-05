@@ -178,3 +178,34 @@ a {
     letter-spacing: 0.2em;
     text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.4);
 }
+
+.cam-alert {
+    position: fixed;
+    top: 150%;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    .transition(top 501ms ease-out);
+
+    &.is-active {
+        top: 0;
+    }
+}
+.cam-alert-msg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 300px;
+    width: 300px;
+    margin-top: -150px;
+    margin-left: -150px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    text-shadow: none;
+}
+.cam-alert-title {
+    color: @white;
+}
