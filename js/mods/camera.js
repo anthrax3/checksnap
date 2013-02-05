@@ -23,7 +23,13 @@ define([ 'lib/inherits', 'lib/eventer', 'mods/url' ], function ( inherits, Event
     Cam.prototype.mediaURL = null;
 
     Cam.prototype.mediaConstraints = {
-        video: true,
+        // http://tools.ietf.org/html/draft-alvestrand-constraints-resolution-00#page-4
+        video: {
+            mandatory: {
+                minWidth: 640,
+                minHeight: 480
+            }
+        },
         audio: false
     };
 
