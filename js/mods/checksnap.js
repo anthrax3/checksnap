@@ -54,8 +54,8 @@ define([ 'jquery', 'mods/camera' ], function ( $, Camera ) {
 
         if ( event.type === 'click' ){
             name = event.currentTarget.hash.replace( '#', '' );
-        } else if ( event.type === 'keydown' && event.which === 32 ){
-            name = 'snapshot';
+        } else if ( event.type === 'keydown' ) {
+            name = 'key_' + event.which;
         }
 
         action = this.actions[ name ];
@@ -67,6 +67,12 @@ define([ 'jquery', 'mods/camera' ], function ( $, Camera ) {
     };
 
     ChkSnp.prototype.actions = {
+        key_27: function(){
+            this.hideError();
+        },
+        key_32: function(){
+            this.takeSnapshot();
+        },
         snapshot: function(){
             this.takeSnapshot();
         },
@@ -132,6 +138,10 @@ define([ 'jquery', 'mods/camera' ], function ( $, Camera ) {
 
     ChkSnp.prototype.displayError = function(){
         this.$el.addClass( this.options.errorClass );
+    };
+
+    ChkSnp.prototype.hideError = function(){
+        this.$el.removeClass( this.options.errorClass );
     };
 
     return ChkSnp;
