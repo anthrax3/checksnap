@@ -81,14 +81,13 @@ a {
         .cam-ctrls {
             height: 50px;
             opacity: 1;
-            .transition(~"height 0.25s linear, opacity 0.25s linear 0.25s");
         }
     }
 
     &.has-error {
         cursor: auto;
 
-        .cam-alert {
+        & ~ .cam-alert {
             top: 0;
         }
     }
@@ -110,13 +109,6 @@ a {
     text-align: center;
     letter-spacing: 0.2em;
     opacity: 0;
-}
-
-.cam-instructions{
-    .transition(~"height 0.25s linear 0.25s, opacity 0.25s linear 0");
-}
-
-.cam-ctrls {
     .transition(~"height 0.25s linear 0.25s, opacity 0.25s linear 0");
 }
 
@@ -124,31 +116,6 @@ a {
     position: absolute;
     top: 20px;
     right: 20px;
-
-    .cam-help {
-        position: absolute;
-        display: block;
-        visibility: hidden;
-        top: -50px;
-        right: 40px;
-        width: 240px;
-        padding: 10px;
-        background: @link;
-        border-radius: 10px;
-        opacity: 0;
-        .transition(opacity 0.7s);
-        .box-shadow(0 0 10px rgba(0, 0, 0, 0.5));
-
-        &:after {
-            position: absolute;
-            top: 44px;
-            left: 100%;
-            content: "";
-            border-top: 10px solid transparent;
-            border-bottom: 10px solid transparent;
-            border-left: 10px solid @link;
-        }
-    }
 
     input {
         display: none;
@@ -168,6 +135,31 @@ a {
         &:active {
             color: @white;
         }
+    }
+}
+
+.cam-help {
+    position: absolute;
+    display: block;
+    visibility: hidden;
+    top: -50px;
+    right: 40px;
+    width: 240px;
+    padding: 10px;
+    background: @link;
+    border-radius: 10px;
+    opacity: 0;
+    .transition(opacity 0.7s);
+    .box-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+
+    &:after {
+        position: absolute;
+        top: 44px;
+        left: 100%;
+        content: "";
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-left: 10px solid @link;
     }
 }
 
@@ -211,4 +203,23 @@ a {
 }
 .cam-alert-title {
     color: @white;
+}
+
+// Phone - portrait
+@media only screen and (max-width : 320px) {
+    .cam-wrap {
+        width: 300px;
+        margin-top: 50px;
+    }
+    .cam-help {
+        width: 170px;
+    }
+}
+
+// Phone - landscape
+@media only screen and (max-width : 480px) {
+    .cam-wrap {
+        width: 300px;
+        margin-top: 10px;
+    }
 }
