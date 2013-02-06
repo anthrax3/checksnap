@@ -9,15 +9,13 @@ define([ 'jquery', 'mods/camera' ], function ( $, Camera ) {
 
         this.options = $.extend( {}, this.options, options );
 
-        this.cam = new Camera();
-        this.cam.on( 'mediaavailable', this.displayStream.bind( this ) );
-        this.cam.on( 'error', this.displayError.bind( this ) );
-
         this.$el = $( this.options.container );
         this.$video = this.$el.find( 'video' );
         this.$img = $( '<img width="' + this.options.width + '" height="' + this.options.height + '" />' );
         this.$canvas = $( '<canvas width="' + this.options.width + '" height="' + this.options.height + '" />' );
         this.$canvas.ctx = this.$canvas[ 0 ].getContext( '2d' );
+
+        this.cam = new Camera();
     };
 
     ChkSnp.prototype.options = {
@@ -27,7 +25,8 @@ define([ 'jquery', 'mods/camera' ], function ( $, Camera ) {
         errorMsg: '#js-checksnap-error',
         loadingClass: 'is-loading',
         streamingClass: 'is-streaming',
-        errorClass: 'has-error'
+        errorClass: 'has-error',
+        screenshotClass: 'has-screenshot'
     };
 
     ChkSnp.prototype.setup = function(){
@@ -37,36 +36,87 @@ define([ 'jquery', 'mods/camera' ], function ( $, Camera ) {
     };
 
     ChkSnp.prototype.listen = function(){
-        this.$video.one( 'click', this.setup.bind( this ) );
-        this.$video.on( 'loadedmetadata', this.toggleLoadingIndicator.bind( this ) );
-        $( document ).on( 'keydown.checksnap', this.onSnapshot.bind( this ) );
+        this.$video.one( 'click', $.proxy( this.setup, this ) );
+        this.$video.one( 'loadedmetadata', $.proxy( this.toggleLoadingIndicator, this ) );
+        this.cam.once( 'mediaavailable', this.startStream.bind( this ) );
+        this.cam.once( 'error', this.displayError.bind( this ) );
+        $( document ).on( 'keydown.checksnap', $.proxy( this.routeAction, this ) );
+        this.$el.on( 'click.checksnap', 'a', $.proxy( this.routeAction, this ) );
         return this;
     };
 
-    ChkSnp.prototype.onSnapshot = function( event ){
-        if ( event.which === 32 ){
-            this.snapshot();
+    ChkSnp.prototype.routeAction = function( event ){
+        var name, action;
+
+        if ( event.type === 'click' ){
+            name = event.currentTarget.hash.replace( '#', '' );
+        } else if ( event.type === 'keydown' && event.which === 32 ){
+            name = 'snapshot';
+        }
+
+        action = this.actions[ name ];
+
+        if ( action ){
+            event.preventDefault();
+            action.call( this );
         }
     };
 
-    ChkSnp.prototype.snapshot = function(){
+    ChkSnp.prototype.actions = {
+        snapshot: function(){
+            this.takeSnapshot();
+        },
+        save: function(){
+            this.saveSnapshot();
+        },
+        retry: function(){
+            this.displayStream();
+        }
+    };
+
+    ChkSnp.prototype.takeSnapshot = function(){
         if ( this.cam.mediaStream ){
             this.$canvas.ctx.drawImage( this.$video[ 0 ], 0, 0 );
-            this.$img.attr( 'src', this.$canvas[ 0 ].toDataURL( 'image/webp' ) );
+            this.$img.attr( 'src', this.$canvas[ 0 ].toDataURL( 'image/png' ) );
             this.$video.replaceWith( this.$img );
             this.$el.removeClass( this.options.streamingClass );
+            this.$el.addClass( this.options.screenshotClass );
         }
         return this;
     };
 
-    ChkSnp.prototype.toggleLoadingIndicator = function(){
+    ChkSnp.prototype.getFilename = function(){
+        var d = new Date(),
+            filename = d.toDateString().replace( /\s/gi, '-' );
+        return filename + '-deposit';
+    };
+
+    ChkSnp.prototype.saveSnapshot = function(){
+        var filename = this.getFilename(),
+            img = this.$img.attr( 'src' ),
+            $a = $('<a />');
+
+        $a.attr({ href: img, download: filename });
+        $a[ 0 ].click();
+        $a.remove();
+    };
+
+    ChkSnp.prototype.toggleLoadingIndicator = function( classes ){
         this.$el.toggleClass( this.options.loadingClass + ' ' + this.options.streamingClass );
         return this;
     };
 
-    ChkSnp.prototype.displayStream = function( media ){
+    ChkSnp.prototype.startStream = function( media ){
         this.$video.attr( 'src', media.URL );
         this.$video[ 0 ].play();
+        return this;
+    };
+
+    ChkSnp.prototype.displayStream = function(){
+        this.$img.replaceWith( this.$video );
+        this.$video[ 0 ].play();
+        this.$el.removeClass( this.options.screenshotClass );
+        this.$el.addClass( this.options.streamingClass );
         return this;
     };
 
