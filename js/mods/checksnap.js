@@ -18,6 +18,9 @@ define([ 'jquery', 'mods/camera' ], function ( $, Camera ) {
         this.$canvas.ctx = this.$canvas[ 0 ].getContext( '2d' );
 
         this.cam = new Camera();
+        if ( !this.cam.isSupported ){
+            this.displayError();
+        }
     };
 
     ChkSnp.prototype.options = {
