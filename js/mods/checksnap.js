@@ -2,6 +2,8 @@
 define([ 'jquery', 'mods/camera' ], function ( $, Camera ) {
     'use strict';
 
+    window.Modernizr = window.Modernizr || {};
+
     var ChkSnp = function( options ){
         if ( ! ( this instanceof ChkSnp ) ) {
             return new ChkSnp( options );
@@ -32,6 +34,7 @@ define([ 'jquery', 'mods/camera' ], function ( $, Camera ) {
 
     ChkSnp.prototype.setup = function(){
         this.$el.addClass( this.options.loadingClass );
+        this.$el.data( 'chksnp', this );
         this.cam.setup();
         return this;
     };
@@ -93,10 +96,15 @@ define([ 'jquery', 'mods/camera' ], function ( $, Camera ) {
     };
 
     ChkSnp.prototype.saveSnapshot = function(){
-        var filename = this.getFilename(),
-            img = this.$img.attr( 'src' ),
-            $a = $('<a />');
+        var img = this.$img.attr( 'src' ),
+            filename, $a;
 
+        if ( ! window.Modernizr.adownload ){
+            window.location.href = img;
+        }
+
+        filename = this.getFilename();
+        $a = $('<a />');
         $a.attr({ href: img, download: filename });
         $a[ 0 ].click();
         $a.remove();

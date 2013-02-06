@@ -1,5 +1,5 @@
 /* Modernizr 2.6.2 (Custom Build) | MIT & BSD
- * Build: http://modernizr.com/download/#-fontface-backgroundsize-borderimage-borderradius-boxshadow-flexbox-hsla-multiplebgs-opacity-rgba-textshadow-cssanimations-csscolumns-generatedcontent-cssgradients-cssreflections-csstransforms-csstransforms3d-csstransitions-applicationcache-canvas-canvastext-draganddrop-hashchange-history-audio-video-indexeddb-input-inputtypes-localstorage-postmessage-sessionstorage-websockets-websqldatabase-webworkers-geolocation-inlinesvg-smil-svg-svgclippaths-touch-webgl-shiv-cssclasses-addtest-prefixed-teststyles-testprop-testallprops-hasevent-prefixes-domprefixes-getusermedia-load
+ * Build: http://modernizr.com/download/#-fontface-backgroundsize-borderimage-borderradius-boxshadow-flexbox-hsla-multiplebgs-opacity-rgba-textshadow-cssanimations-csscolumns-generatedcontent-cssgradients-cssreflections-csstransforms-csstransforms3d-csstransitions-applicationcache-canvas-canvastext-draganddrop-hashchange-history-audio-video-indexeddb-input-inputtypes-localstorage-postmessage-sessionstorage-websockets-websqldatabase-webworkers-geolocation-inlinesvg-smil-svg-svgclippaths-touch-webgl-shiv-cssclasses-addtest-prefixed-teststyles-testprop-testallprops-hasevent-prefixes-domprefixes-a_download-getusermedia-load
  */
 ;
 
@@ -816,4 +816,12 @@ Modernizr.load=function(){yepnope.apply(window,[].slice.call(arguments,0));};
 // http://www.whatwg.org/specs/web-apps/current-work/multipage/video-conferencing-and-peer-to-peer-communication.html
 // By Eric Bidelman
 
-Modernizr.addTest('getusermedia', !!Modernizr.prefixed('getUserMedia', navigator));;
+Modernizr.addTest('getusermedia', !!Modernizr.prefixed('getUserMedia', navigator));
+// a[download] attribute
+// When used on an <a>, this attribute signifies that the resource it
+// points to should be downloaded by the browser rather than navigating to it.
+// http://developers.whatwg.org/links.html#downloading-resources
+// By Addy Osmani
+
+Modernizr.addTest('adownload', 'download' in document.createElement('a'));
+;
