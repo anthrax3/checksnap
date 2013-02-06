@@ -23,6 +23,7 @@ define([ 'jquery', 'mods/camera' ], function ( $, Camera ) {
         height: 480,
         container: '#js-checksnap',
         errorMsg: '#js-checksnap-error',
+        helpMsg: '#js-checksnap-help',
         loadingClass: 'is-loading',
         streamingClass: 'is-streaming',
         errorClass: 'has-error',
@@ -107,6 +108,7 @@ define([ 'jquery', 'mods/camera' ], function ( $, Camera ) {
     };
 
     ChkSnp.prototype.startStream = function( media ){
+        this.$el.find( this.options.helpMsg ).removeAttr( 'checked' );
         this.$video.attr( 'src', media.URL );
         this.$video[ 0 ].play();
         return this;
